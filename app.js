@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     function getWeatherByCity() {
-        const apiKey = 'YOUR_API_KEY';
+        const apiKey = 'ed8f81b0538294a64e47286bd83ddbbe';
         const cityInput = document.getElementById('cityInput');
         const city = cityInput.value;
 
