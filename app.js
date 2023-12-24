@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     function getWeatherByCity() {
-        const apiKey = 'ed8f81b0538294a64e47286bd83ddbbe';
+        const apiKey = 'YOUR_API_KEY';
         const cityInput = document.getElementById('cityInput');
         const city = cityInput.value;
 
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('City not found. Please recheck and enter a valid city.');
+                    throw new Error('Weather data not found for the current location. Please try again or enter a city manually.');
                 }
                 return response.json();
             })
