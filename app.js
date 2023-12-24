@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    function getWeather() {
+    function getWeatherByCity() {
         const apiKey = 'ed8f81b0538294a64e47286bd83ddbbe';
         const cityInput = document.getElementById('cityInput');
         const city = cityInput.value;
@@ -11,6 +11,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
+        fetchWeather(apiUrl);
+    }
+
+    function getWeatherByLocation() {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const apiKey = 'YOUR_API_KEY';
+                const { latitude, longitude } = position.coords;
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+
+                fetchWeather(apiUrl);
+            }, error => {
+                console.error('Error getting location:', error);
+                alert('Error getting location. Please try again or enter a city manually.');
+            });
+        } else {
+            alert('Geolocation is not supported by your browser. Please enter a city manually.');
+        }
+    }
+
+    function fetchWeather(apiUrl) {
         fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
@@ -40,7 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
         weatherInfo.innerHTML = weatherHTML;
     }
 
-    // Set up the event listener for the button click
-    const getWeatherButton = document.querySelector('button');
-    getWeatherButton.addEventListener('click', getWeather);
+    // Set up the event listeners for the buttons
+    const getWeatherByCityButton = document.querySelector('button:nth-of-type(1)');
+    getWeatherByCityButton.addEventListener('click', getWeatherByCity);
+
+    const getWeatherByLocationButton = document.querySelector('button:nth-of-type(2)');
+    getWeatherByLocationButton.addEventListener('click', getWeatherByLocation);
 });
