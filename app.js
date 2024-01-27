@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const apiKey = 'ed8f81b0538294a64e47286bd83ddbbe';
+
     function getWeatherByCity() {
-        const apiKey = 'ed8f81b0538294a64e47286bd83ddbbe';
         const cityInput = document.getElementById('cityInput');
         const city = cityInput.value;
 
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}`;
 
         fetchWeather(apiUrl);
     }
@@ -17,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function getWeatherByLocation() {
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(position => {
-                const apiKey = 'ed8f81b0538294a64e47286bd83ddbbe';
                 const { latitude, longitude } = position.coords;
                 const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Weather data not found for the current location. Please try again or enter a city manually.');
+                    throw new Error('Weather data not found. Please try again or enter a valid city.');
                 }
                 return response.json();
             })
