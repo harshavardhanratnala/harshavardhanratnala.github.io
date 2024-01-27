@@ -68,5 +68,3 @@ document.addEventListener('DOMContentLoaded', () => {
     const getWeatherByLocationButton = document.querySelector('button:nth-of-type(2)');
     getWeatherByLocationButton.addEventListener('click', getWeatherByLocation);
 });
-
-z
