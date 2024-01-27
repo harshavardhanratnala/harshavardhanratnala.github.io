@@ -10,18 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}`;
+        const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}`;
 
-        fetchWeather(apiUrl);
+        fetchWeather(weatherApiUrl);
     }
 
     function getWeatherByLocation() {
         if ('geolocation' in navigator) {
             navigator.geolocation.getCurrentPosition(position => {
                 const { latitude, longitude } = position.coords;
-                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+                const weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
 
-                fetchWeather(apiUrl);
+                fetchWeather(weatherApiUrl);
             }, error => {
                 console.error('Error getting location:', error);
                 alert('Error getting location. Please try again or enter a city manually.');
@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function fetchWeather(apiUrl) {
-        fetch(apiUrl)
+    function fetchWeather(weatherApiUrl) {
+        fetch(weatherApiUrl)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Weather data not found. Please try again or enter a valid city.');
@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return response.json();
             })
             .then(data => {
+                console.log('Weather Data:', data);
                 displayWeather(data);
 
                 // Fetch air quality data using the same coordinates
@@ -56,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(airQualityUrl)
             .then(response => response.json())
             .then(airQualityData => {
+                console.log('Air Quality Data:', airQualityData);
                 displayAirQuality(airQualityData);
             })
             .catch(error => {
@@ -79,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayAirQuality(airQualityData) {
         const airQualityInfo = document.getElementById('air-quality-info');
+        // Adjust the property access based on the structure of the API response
         const aqi = airQualityData.list[0].main.aqi;
 
         const airQualityHTML = `
